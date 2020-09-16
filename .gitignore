@@ -1,2 +1,7 @@
 Battleships/obj/
 .vs/Battleships/v16/.suo
+.vs/
+Battleships.Tests/bin/
+*/obj/*
+*/bin/*
+Battleships.sln.DotSettings.user
