@@ -6,9 +6,9 @@ namespace Battleships.Services.Grids
 {
     public class GridSquareService : IGridSquareService
     {
-        public GridSquare GetGridSquareById(Grid grid, string id)
+        public GridSquare GetGridSquareToBeShot(Grid grid, string id)
         {
-            return grid.GridSquares.FirstOrDefault(_ => _.Id == id);
+            return grid.GridSquares.FirstOrDefault(_ => _.Id == id && !_.WasShot);
         }
     }
 }

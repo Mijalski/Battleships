@@ -6,8 +6,10 @@ using Battleships.IFactories.Grids;
 using Battleships.IFactories.Ships;
 using Battleships.IServices.Games;
 using Battleships.IServices.Grids;
+using Battleships.IServices.Inputs;
 using Battleships.Services.Games;
 using Battleships.Services.Grids;
+using Battleships.Services.Inputs;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Battleships
@@ -21,6 +23,7 @@ namespace Battleships
                 .AddSingleton<IShipFactory, ShipFactory>()
                 .AddSingleton<IGridFactory, GridFactory>()
                 .AddSingleton<IGameService, GameService>()
+                .AddSingleton<IUIService, ConsoleIUIService>()
                 .BuildServiceProvider();
 
             var gameService = (IGameService)serviceProvider.GetService(typeof(IGameService));

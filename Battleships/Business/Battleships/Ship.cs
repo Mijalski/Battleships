@@ -9,13 +9,13 @@ namespace Battleships.Business.Battleships
     {
         private readonly Grid _grid;
         public List<GridSquare> GridSquares { get; private set; }
-        private bool _isDestroyed;
+        public bool IsDestroyed { get; private set; }
         public readonly int Size;
 
         public Ship(int size)
         {
             Size = size;
-            _isDestroyed = false;
+            IsDestroyed = false;
             GridSquares = new List<GridSquare>();
         }
 
@@ -24,10 +24,20 @@ namespace Battleships.Business.Battleships
             if(GridSquares.Any())
                 throw new InvalidOperationException("Ship already has grid squares assigned");
 
-            if(gridSquaresToPlaceOn.Count != Size)
-                throw new ArgumentException("Grid squares count has to be equal to the size of the ship");
+            foreach (var gridSquare in gridSquaresToPlaceOn)
+            {
+                gridSquare.PlaceShip(this);
+            }
 
             GridSquares = gridSquaresToPlaceOn;
+        }
+
+        public void GetShot()
+        {
+            if (GridSquares.All(_ => _.WasShot))
+            {
+                IsDestroyed = true;
+            }
         }
     }
 }

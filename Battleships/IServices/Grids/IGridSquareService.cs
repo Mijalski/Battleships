@@ -4,6 +4,6 @@ namespace Battleships.IServices.Grids
 {
     public interface IGridSquareService
     {
-        GridSquare GetGridSquareById(Grid grid, string id);
+        GridSquare GetGridSquareToBeShot(Grid grid, string id);
     }
 }

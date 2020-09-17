@@ -18,7 +18,7 @@ namespace Battleships.Tests.Factories
 
         [DataTestMethod]
         [DataRow(10, 5, 4, 9)]
-        public void GridCtor_Test_GridSize(int gridSize, int battleShipCount, int destroyerCount, int overallShipCount)
+        public void GridCtor_Test_ShipsCount(int gridSize, int battleShipCount, int destroyerCount, int overallShipCount)
         {
             var grid = _gridFactory.CreateGrid(gridSize, battleShipCount, destroyerCount);
             Assert.AreEqual(overallShipCount, grid.Ships.Count);

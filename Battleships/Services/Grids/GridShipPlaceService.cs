@@ -12,40 +12,40 @@ namespace Battleships.Services.Grids
     {
         public void PlaceShip(Grid grid, Ship ship)
         {
-            var isDirectionVertical = RandomizeHelper.GetRandomBool();
+            var foundNonCollidingGridSquares = false;
+            IEnumerable<GridSquare> gridSquaresToPlaceShipOn = null;
 
-            if (isDirectionVertical)
+            while (!foundNonCollidingGridSquares)
             {
-                PlaceShipVertically(grid, ship);
-            }
-            else
-            {
-                PlaceShipHorizontally(grid, ship);
+                var isDirectionVertical = RandomizeHelper.GetRandomBool();
+
+                gridSquaresToPlaceShipOn = isDirectionVertical
+                    ? PlaceShipVertically(grid, ship)
+                    : PlaceShipHorizontally(grid, ship);
+
+                foundNonCollidingGridSquares = gridSquaresToPlaceShipOn.All(g => g.Ship == null);
             }
 
+            ship.PlaceOnSquares(gridSquaresToPlaceShipOn.ToList());
             grid.Ships.Add(ship);
         }
 
-        public static void PlaceShipVertically(Grid grid, Ship ship)
+        public static IEnumerable<GridSquare> PlaceShipVertically(Grid grid, Ship ship)
         {
             var lastPossibleRowIndex = GetLastPossibleIndexForAxis(grid.RowCount, ship.Size);
             var randomRowIndex = RandomizeHelper.GetRandomInt(lastPossibleRowIndex);
             var randomColumnIndex = RandomizeHelper.GetRandomInt(grid.ColumnCount);
 
-            var gridSquaresToPlaceShipOn = GetGridSquaresToPlaceShipVertically(grid, ship, randomColumnIndex, randomRowIndex)
-                .ToList();
-            ship.PlaceOnSquares(gridSquaresToPlaceShipOn);
+            return GetGridSquaresToPlaceShipVertically(grid, ship, randomColumnIndex, randomRowIndex);
         }
 
-        public static void PlaceShipHorizontally(Grid grid, Ship ship)
+        public static IEnumerable<GridSquare> PlaceShipHorizontally(Grid grid, Ship ship)
         {
             var lastPossibleColumnIndex = GetLastPossibleIndexForAxis(grid.RowCount, ship.Size);
             var randomColumnIndex = RandomizeHelper.GetRandomInt(lastPossibleColumnIndex);
             var randomRowIndex = RandomizeHelper.GetRandomInt(grid.ColumnCount);
 
-            var gridSquaresToPlaceShipOn = GetGridSquaresToPlaceShipHorizontally(grid, ship, randomColumnIndex, randomRowIndex)
-                .ToList();
-            ship.PlaceOnSquares(gridSquaresToPlaceShipOn);
+            return GetGridSquaresToPlaceShipHorizontally(grid, ship, randomColumnIndex, randomRowIndex);
         }
 
         public static IEnumerable<GridSquare> GetGridSquaresToPlaceShipVertically(Grid grid, Ship ship, int randomColumnIndex, int randomRowIndex)

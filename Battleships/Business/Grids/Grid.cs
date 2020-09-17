@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Battleships.Business.Battleships;
 using Battleships.Helpers;
@@ -40,6 +41,16 @@ namespace Battleships.Business.Grids
                     GridSquares.Add(new GridSquare(x, y));
                 }
             }
+        }
+
+        public void ShootGridSquare(GridSquare gridSquare)
+        {
+            gridSquare.GetShot();
+        }
+
+        private bool CheckIfHasAnyShipsLeft()
+        {
+            return Ships.Any(_ => _.IsDestroyed);
         }
     }
 }
