@@ -1,4 +1,6 @@
-﻿using Battleships.Business.Grids;
+﻿using System;
+using Battleships.Business.Grids;
+using Battleships.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Battleships.Tests.Grids
@@ -7,27 +9,30 @@ namespace Battleships.Tests.Grids
     public class Grid_UnitTests
     {
 
-        [TestMethod]
-        public void GridCtor_Test_GridSize()
+        [DataTestMethod]
+        [DataRow(10)]
+        [DataRow(2)]
+        public void GridCtor_Test_GridSize(int gridSize)
         {
-            var grid = new Grid(10);
-            Assert.AreEqual(grid.RowCount, 10);
-            Assert.AreEqual(grid.ColumnCount, 10);
+            var grid = new Grid(gridSize);
+            Assert.AreEqual(gridSize, grid.RowCount);
+            Assert.AreEqual(gridSize, grid.ColumnCount);
         }
 
         [TestMethod]
-        public void GridCtor_Test_RowAndColumnSize()
+        public void GetColumnName_Test_ArgumentException()
         {
-            var grid = new Grid(10,9);
-            Assert.AreEqual(grid.RowCount, 10);
-            Assert.AreEqual(grid.ColumnCount, 9);
+            Assert.ThrowsException<ArgumentException>(() => new Grid(1));
         }
 
-        [TestMethod]
-        public void GridCtor_Test_GridSquaresCount()
+        [DataTestMethod]
+        [DataRow(2, 4)]
+        [DataRow(5, 25)]
+        [DataRow(10, 100)]
+        public void GridCtor_Test_GridSquaresCount(int gridSize, int gridSquaresCount)
         {
-            var grid = new Grid(10);
-            Assert.AreEqual(grid.GetGridSquaresCount(), 100);
+            var grid = new Grid(gridSize);
+            Assert.AreEqual(gridSquaresCount, grid.GridSquares.Count);
         }
     }
 }

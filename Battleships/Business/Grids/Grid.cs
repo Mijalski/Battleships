@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Battleships.Business.Battleships;
+using Battleships.Helpers;
 
 namespace Battleships.Business.Grids
 {
@@ -6,12 +10,19 @@ namespace Battleships.Business.Grids
     {
         public readonly int RowCount;
         public readonly int ColumnCount;
-        private List<GridSquare> _gridSquares;
+        public List<GridSquare> GridSquares { get; private set; }
+        public List<Ship> Ships { get; set; }
 
         public Grid(int rowCount, int columnCount)
         {
+            if(rowCount <= 1 || columnCount <= 1) 
+                throw new ArgumentException("Both grid dimensions have to be grater than 1");
+
             RowCount = rowCount;
             ColumnCount = columnCount;
+
+            GridSquares = new List<GridSquare>();
+            Ships = new List<Ship>();
 
             GenerateGridSquares();
         }
@@ -22,19 +33,13 @@ namespace Battleships.Business.Grids
 
         private void GenerateGridSquares()
         {
-            _gridSquares = new List<GridSquare>();
             for (var x = 0; x < ColumnCount; x++)
             {
                 for (var y = 0; y < RowCount; y++)
                 {
-                    _gridSquares.Add(new GridSquare(x, y));
+                    GridSquares.Add(new GridSquare(x, y));
                 }
             }
-        }
-
-        public int GetGridSquaresCount()
-        {
-            return _gridSquares.Count;
         }
     }
 }

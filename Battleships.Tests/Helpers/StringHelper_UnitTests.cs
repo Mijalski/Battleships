@@ -1,4 +1,5 @@
-﻿using Battleships.Helpers;
+﻿using System;
+using Battleships.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Battleships.Tests.Helpers
@@ -7,28 +8,37 @@ namespace Battleships.Tests.Helpers
     public class StringHelper_UnitTests
     {
 
-        [TestMethod]
-        public void GetColumnName_Test_SingleLetterA()
+        [DataTestMethod]
+        [DataRow("A", 0)]
+        [DataRow("B", 1)]
+        [DataRow("Z", 25)]
+        [DataRow("AA", 26)]
+        [DataRow("AB", 27)]
+        public void GetColumnName_Test(string columnName, int columnIndex)
         {
-            Assert.AreEqual("A", 0.GetColumnName());
+            Assert.AreEqual(columnName, columnIndex.GetColumnName());
         }
 
         [TestMethod]
-        public void GetColumnName_Test_SingleLetterZ()
+        public void GetColumnName_Test_ArgumentException()
         {
-            Assert.AreEqual("Z", 25.GetColumnName());
+            var index = -1;
+            Assert.ThrowsException<ArgumentException>(() => index.GetColumnName());
+        }
+
+        [DataTestMethod]
+        [DataRow("1", 0)]
+        [DataRow("2", 1)]
+        public void GetRowName_Test(string rowName, int rowIndex)
+        {
+            Assert.AreEqual(rowName, rowIndex.GetRowName());
         }
 
         [TestMethod]
-        public void GetColumnName_Test_DoubleLettersAA()
+        public void GetRowName_Test_ArgumentException()
         {
-            Assert.AreEqual("AA", 26.GetColumnName());
-        }
-
-        [TestMethod]
-        public void GetRowName_Test()
-        {
-            Assert.AreEqual("1", 0.GetRowName());
+            var index = -1;
+            Assert.ThrowsException<ArgumentException>(() => index.GetRowName());
         }
     }
 }
