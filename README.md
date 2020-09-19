@@ -5,7 +5,7 @@ Game creates a 10x10 grid with 3 ships to be shot down.
 
 Enter the coordinates like so: "A5".
 
-![alt text](https://imgur.com/B5ynbPh)
+![alt text](https://i.imgur.com/B5ynbPh.png)
 
 Stack: .NETCore, C#
 
