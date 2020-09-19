@@ -47,10 +47,5 @@ namespace Battleships.Business.Grids
         {
             gridSquare.GetShot();
         }
-
-        private bool CheckIfHasAnyShipsLeft()
-        {
-            return Ships.Any(_ => _.IsDestroyed);
-        }
     }
 }

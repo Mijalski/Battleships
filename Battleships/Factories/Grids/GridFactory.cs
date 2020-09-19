@@ -1,4 +1,6 @@
-﻿using Battleships.Business.Grids;
+﻿using System;
+using Battleships.Business.Grids;
+using Battleships.Factories.Ships;
 using Battleships.IFactories.Grids;
 using Battleships.IFactories.Ships;
 using Battleships.IServices.Grids;
@@ -25,13 +27,21 @@ namespace Battleships.Factories.Grids
         {
             var grid = new Grid(gridSize ?? DefaultGridSize);
 
-            for (var i = 0; i < (battleShipCount ?? DefaultBattleshipsCount); i++)
+            battleShipCount ??= DefaultBattleshipsCount;
+            destroyerCount ??= DefaultDestroyersCount;
+
+            var squaresTakenUpByShips = (battleShipCount * ShipFactory.DefaultBattleShipSize) + 
+                                        (destroyerCount * ShipFactory.DefaultDestroyerSize);
+            if (grid.GridSquares.Count <= squaresTakenUpByShips)
+                throw new InvalidOperationException("Grid is too small to host specified ship amount");
+
+            for (var i = 0; i < battleShipCount; i++)
             {
                 var battleship = _shipFactory.CreateBattleship();
                 _gridPlaceShipService.PlaceShip(grid, battleship);
             }
 
-            for (var i = 0; i < (destroyerCount ?? DefaultDestroyersCount); i++)
+            for (var i = 0; i < destroyerCount; i++)
             {
                 var destroyer = _shipFactory.CreateDestroyer();
                 _gridPlaceShipService.PlaceShip(grid, destroyer);

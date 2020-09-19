@@ -23,6 +23,8 @@ namespace Battleships
                 .AddSingleton<IShipFactory, ShipFactory>()
                 .AddSingleton<IGridFactory, GridFactory>()
                 .AddSingleton<IGameService, GameService>()
+                .AddSingleton<IGridService, GridService>()
+                .AddSingleton<IGridSquareService, GridSquareService>()
                 .AddSingleton<IUIService, ConsoleIUIService>()
                 .BuildServiceProvider();
 

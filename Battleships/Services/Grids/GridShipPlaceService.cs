@@ -18,10 +18,14 @@ namespace Battleships.Services.Grids
             while (!foundNonCollidingGridSquares)
             {
                 var isDirectionVertical = RandomizeHelper.GetRandomBool();
+                var canShipBePlacedVertically = grid.RowCount >= ship.Size;
+                var canShipBePlacedHorizontally = grid.ColumnCount >= ship.Size;
 
-                gridSquaresToPlaceShipOn = isDirectionVertical
+                gridSquaresToPlaceShipOn = isDirectionVertical && canShipBePlacedVertically
                     ? PlaceShipVertically(grid, ship)
-                    : PlaceShipHorizontally(grid, ship);
+                    : canShipBePlacedHorizontally 
+                        ? PlaceShipHorizontally(grid, ship) 
+                        : throw new ArgumentException("Ship is too large to be placed on the grid");
 
                 foundNonCollidingGridSquares = gridSquaresToPlaceShipOn.All(g => g.Ship == null);
             }
@@ -41,9 +45,9 @@ namespace Battleships.Services.Grids
 
         public static IEnumerable<GridSquare> PlaceShipHorizontally(Grid grid, Ship ship)
         {
-            var lastPossibleColumnIndex = GetLastPossibleIndexForAxis(grid.RowCount, ship.Size);
+            var lastPossibleColumnIndex = GetLastPossibleIndexForAxis(grid.ColumnCount, ship.Size);
             var randomColumnIndex = RandomizeHelper.GetRandomInt(lastPossibleColumnIndex);
-            var randomRowIndex = RandomizeHelper.GetRandomInt(grid.ColumnCount);
+            var randomRowIndex = RandomizeHelper.GetRandomInt(grid.RowCount);
 
             return GetGridSquaresToPlaceShipHorizontally(grid, ship, randomColumnIndex, randomRowIndex);
         }

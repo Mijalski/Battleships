@@ -12,21 +12,24 @@ namespace Battleships.Services.Games
         private readonly IGridFactory _gridFactory;
         private readonly IUIService _uiService;
         private readonly IGridSquareService _gridSquareService;
+        private readonly IGridService _gridService;
 
         public GameService(IGridFactory gridFactory, 
             IUIService uiService, 
-            IGridSquareService gridSquareService)
+            IGridSquareService gridSquareService, 
+            IGridService gridService)
         {
             _gridFactory = gridFactory;
             _uiService = uiService;
             _gridSquareService = gridSquareService;
+            _gridService = gridService;
         }
 
         public void PlayGame()
         {
             var grid = _gridFactory.CreateGrid();
 
-            while (grid.Ships.Any(_ => !_.IsDestroyed))
+            while (!_gridService.CheckIfGameIsFinished(grid))
             {
                 _uiService.RefreshGrid(grid);
 
@@ -44,6 +47,8 @@ namespace Battleships.Services.Games
                 else
                     _uiService.NotifyAboutShotOnTarget();
             }
+
+            _uiService.NotifyAboutGameFinish();
         }
     }
 }

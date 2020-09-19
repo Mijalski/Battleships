@@ -1,4 +1,5 @@
-﻿using Battleships.Factories.Grids;
+﻿using System;
+using Battleships.Factories.Grids;
 using Battleships.Factories.Ships;
 using Battleships.IFactories.Grids;
 using Battleships.Services.Grids;
@@ -22,6 +23,13 @@ namespace Battleships.Tests.Factories
         {
             var grid = _gridFactory.CreateGrid(gridSize, battleShipCount, destroyerCount);
             Assert.AreEqual(overallShipCount, grid.Ships.Count);
+        }
+
+        [DataTestMethod]
+        [DataRow(4, 5, 5)]
+        public void GridCtor_Test_ThrowException(int gridSize, int battleShipCount, int destroyerCount)
+        {
+            Assert.ThrowsException<InvalidOperationException>(() => _gridFactory.CreateGrid(gridSize, battleShipCount, destroyerCount));
         }
     }
 }

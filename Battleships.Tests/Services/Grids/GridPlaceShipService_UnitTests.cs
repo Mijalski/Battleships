@@ -18,13 +18,25 @@ namespace Battleships.Tests.Services.Grids
             _gridPlaceShipService = new GridPlaceShipService();
         }
 
-        [TestMethod]
-        public void GetLastPossibleIndexForAxis_Test_PlaceShip()
+        [DataTestMethod]
+        [DataRow(10, 10, 5)]
+        [DataRow(3, 6, 5)]
+        [DataRow(6, 3, 5)]
+        public void GetLastPossibleIndexForAxis_Test_PlaceShip(int rowCount, int columnCount, int shipSize)
         {
-            var grid = new Grid(10, 10);
-            var ship = new Ship(5);
+            var grid = new Grid(rowCount, columnCount);
+            var ship = new Ship(shipSize);
             _gridPlaceShipService.PlaceShip(grid, ship);
             Assert.IsTrue(grid.Ships.Any());
+        }
+
+        [TestMethod]
+        [DataRow(3, 3, 5)]
+        public void GetLastPossibleIndexForAxis_Test_PlaceShipException(int rowCount, int columnCount, int shipSize)
+        {
+            var grid = new Grid(rowCount, columnCount);
+            var ship = new Ship(shipSize);
+            Assert.ThrowsException<ArgumentException>(() => _gridPlaceShipService.PlaceShip(grid, ship));
         }
 
         [TestMethod]
