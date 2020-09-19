@@ -48,6 +48,7 @@ namespace Battleships.Services.Games
                     _uiService.NotifyAboutShotOnTarget();
             }
 
+            _uiService.RefreshGrid(grid);
             _uiService.NotifyAboutGameFinish();
         }
     }

@@ -10,8 +10,8 @@ namespace Battleships.Factories.Grids
     public class GridFactory : IGridFactory
     {
         public const int DefaultGridSize = 10;
-        public const int DefaultBattleshipsCount = 5;
-        public const int DefaultDestroyersCount = 5;
+        public const int DefaultBattleshipsCount = 1;
+        public const int DefaultDestroyersCount = 2;
 
         private readonly IShipFactory _shipFactory;
         private readonly IGridPlaceShipService _gridPlaceShipService;
