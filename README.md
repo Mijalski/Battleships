@@ -7,7 +7,7 @@ Enter the coordinates like so: "A5".
 
 ![alt text](https://i.imgur.com/B5ynbPh.png)
 
-Stack: .NETCore, C#
+Stack: .NET Core, C#
 
 Project can be run using Visual Studio 2019 and running the project or from exe provided here: 
 [Link](https://drive.google.com/file/d/1fYxt2RPLTiQCF5ySvu-fQBlMbCzC9NNZ/view?usp=sharing)
